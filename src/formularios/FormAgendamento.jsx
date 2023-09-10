@@ -29,8 +29,26 @@ export default function FormAgendamento(props) {
     const elemForm = e.currentTarget;
     const id = elemForm.id;
     const valor = elemForm.value;
-    setAgendamento({ ...agendamento, [id]: valor });
-  }
+    setAgendamento({...agendamento,[id]: valor,});
+  };
+
+  function validarData(){
+    const dataInserida = new Date(agendamento.data);
+    const dataAtual = new Date();
+    if(dataInserida < dataAtual){
+      alert('Informe uma data válida!');
+      setAgendamento({...agendamento,data: ''});
+    }
+  };
+
+  function validarHoraSaida(){
+      const horaEntrada = agendamento.horaEntrada;
+      const horaSaida = agendamento.horaSaida;
+          if (horaEntrada && horaSaida && horaSaida <= horaEntrada) {
+            alert('A hora de saída deve ser maior do que a hora de entrada.');
+            setAgendamento({...agendamento,horaSaida: '',});
+          }
+  };
 
   useEffect(() => {
     if (props.agendamento.visitante) {
@@ -150,7 +168,8 @@ export default function FormAgendamento(props) {
             required
             value={agendamento.data}
             id="data"
-            onChange={manipularMudanca} />
+            onChange={manipularMudanca}
+            onBlur={validarData} />
           <Form.Control.Feedback type="invalid">
             Informe uma data válida!
           </Form.Control.Feedback>
@@ -179,6 +198,7 @@ export default function FormAgendamento(props) {
             value={agendamento.horaSaida}
             id="horaSaida"
             onChange={manipularMudanca}
+            onBlur={validarHoraSaida}
           />
           <Form.Control.Feedback type="invalid">
             Insira a hora de saída
