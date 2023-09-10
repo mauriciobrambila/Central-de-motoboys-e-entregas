@@ -1,25 +1,25 @@
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Container, Form } from 'react-bootstrap';
 import './barraBusca.css';
 
-export default function BarraBusca({placeHolder,
-                                    dados,
-                                    campoChave,
-                                    campoBusca,
-                                    funcaoSelecao,
-                                    valor}){
-        const inputBusca = useRef();
+export default function BarraBusca({ placeHolder, dados, campoChave, campoBusca, funcaoSelecao, valor }) {
+  const inputBusca = useRef();
 
-        const [termoBusca, setTermoBusca] = useState(valor?valor:"");
-        const [dadosLista, setDadosLista] = useState(dados);
-        const [itemSelecionado, setItemSelecionado] = useState(false);
+  const [termoBusca, setTermoBusca] = useState(valor ? valor : "");
+  const [dadosLista, setDadosLista] = useState(dados);
+  const [itemSelecionado, setItemSelecionado] = useState(false);
 
-        function filtrarResultado(){
-            setDadosLista(dados.filter((item)=>{
-                                            return termoBusca.length > 1 ? item[campoBusca].toLowerCase().includes(termoBusca.toLowerCase()):false
-                                                }
-                                        )
-                            );
+  useEffect(() => {
+    filtrarResultado();
+  },[termoBusca, dados]);
+
+  function filtrarResultado() {
+    const termoBuscaLowerCase = termoBusca?.toLowerCase() ?? ''; // Garanta que termoBusca não seja undefined
+    setDadosLista(
+      dados.filter((item) =>
+        termoBuscaLowerCase.length > 1 ? item[campoBusca].toLowerCase().includes(termoBuscaLowerCase) : false
+      )
+    );
 
             let componenteResultado = document.querySelector('[data-resultado]');
             if(dadosLista.length > 0){

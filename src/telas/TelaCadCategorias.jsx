@@ -1,33 +1,27 @@
-import FormVisitante from "../formularios/FormVisitantes";
+import FormCategorias from "../formularios/FormCategoria";
 import { Container } from "react-bootstrap";
-import TabelaVisitantes from "../tabelas/tabelaVisitantes";
+import TabelaCategorias from "../tabelas/tabelaCategorias";
 import { useState, useEffect } from "react";
 import Pagina from "../templates/Pagina";
-import { urlBase } from "../utilitarios/definiçoes";
+import { urlBase3 } from "../utilitarios/definiçoes";
 
-export default function TelaCadastroVisitantes(props){
-    const [visitantes, setVisitantes] = useState([]);
+export default function TelaCadastroCategorias(props){
+    const [categorias, setCategorias] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
     const [modoEdicao, setModoEdicao] = useState(false);
-    const [visitanteEmEdicao, setVisitanteEmEdicao] = useState({
-        nome: "",
-        sobrenome: "",
-        cpf: "",
-        rg: "",
+    const [categoriaEmEdicao, setCategoriaEmEdicao] = useState({
         codigo: "",
-        telefone: "",
-        data: "",
-        categoria: "",
+        nome: "",
         observacao: ""
     });
     
 
     useEffect(()=>{
-        fetch(urlBase, {method:"GET"})
+        fetch(urlBase3, {method:"GET"})
         .then((resposta)=>{return resposta.json()})
         .then((dados)=>{
             if (Array.isArray(dados)){
-                setVisitantes(dados);
+                setCategorias(dados);
             }
             else{
                 window.alert("Erro ao fazer requisição do dados! Tente novamente")
@@ -36,29 +30,29 @@ export default function TelaCadastroVisitantes(props){
     },[]);
 
 
-    function prepararVisitanteEdicao(visitante){
+    function prepararCategoriaEdicao(categoria){
         setModoEdicao(true);
-        setVisitanteEmEdicao(visitante);
+        setCategoriaEmEdicao(categoria);
         setExibirTabela(false);
     }
     
-    function excluirVisitante(visitante) {
+    function excluirCategoria(categoria) {
         if (window.confirm("Confirmar exclusão?")) {
-          fetch(urlBase, {
+          fetch(urlBase3, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(visitante)
+            body: JSON.stringify(categoria)
           })
             .then((resposta) => resposta.json())
             .then((resposta) => {
-              window.alert("Visitante excluído!");
+              window.alert("Categoria excluída!");
       
-              setVisitantes((antigos) =>
-                antigos.filter((v) => v.codigo !== visitante.codigo)
+              setCategorias((antigos) =>
+                antigos.filter((c) => c.codigo !== categoria.codigo)
               );
             })
             .catch((erro) => {
-              window.alert("Erro ao excluir visitante: " + erro.message);
+              window.alert("Erro ao excluir categoria: " + erro.message);
             });
         }
       }
@@ -70,22 +64,22 @@ export default function TelaCadastroVisitantes(props){
                 exibirTabela? 
                 <Pagina>
                     <Container id="brasao">
-                    <TabelaVisitantes listaVisitantes={visitantes}
-                                        setVisitantes={setVisitantes}
+                    <TabelaCategorias listaCategorias={categorias}
+                                        setCategorias={setCategorias}
                                         exibirTabela={setExibirTabela}
-                                        editarVisitante={prepararVisitanteEdicao}
-                                        excluir={excluirVisitante}/> 
+                                        editarCategoria={prepararCategoriaEdicao}
+                                        excluir={excluirCategoria}/> 
                     </Container>
                 </Pagina>
                     :
                 <Pagina>
                     <Container id="brasao">
-                        <FormVisitante listaVisitantes={visitantes} 
-                                        setVisitantes={setVisitantes} 
+                        <FormCategorias listaCategorias={categorias} 
+                                        setCategorias={setCategorias} 
                                         exibirTabela={setExibirTabela} 
                                         modoEdicao={modoEdicao}
                                         setModoEdicao={setModoEdicao} 
-                                        visitante={visitanteEmEdicao}
+                                        categoria={categoriaEmEdicao}
                                         />
                     </Container>
                  </Pagina>

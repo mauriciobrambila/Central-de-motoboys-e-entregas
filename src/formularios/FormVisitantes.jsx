@@ -4,7 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import ReactInputMask from "react-input-mask";
-import { urlBase } from '../utilitarios/definiçoes';
+import { urlBase, urlBase3 } from '../utilitarios/definiçoes';
+import CaixaSelecao from '../utilitarios/Combobox';
 
 const boxcad_style = {
   padding: '2px',
@@ -23,6 +24,7 @@ const boxcadall_style = {
 export default function FormVisitante(props) {
   const [validated, setValidated] = useState(false);
   const [visitante, setVisitante] = useState(props.visitante);
+  const [categoriaSelecionada, setCategoriaSelecionada] = useState({});
 
   function manipularMudanca(e) {
     const elemForm = e.currentTarget;
@@ -160,7 +162,7 @@ export default function FormVisitante(props) {
         </Form.Group>
       </Row>
       <Row className="mb-3">
-        <Form.Group as={Col} md="5">
+        <Form.Group as={Col} md="4">
           <Form.Label>Telefone</Form.Label>
           <ReactInputMask mask='(99) 99999-9999' maskChar="" value={visitante.telefone} onChange={manipularMudanca}>
             {() => <Form.Control type="text"
@@ -185,7 +187,29 @@ export default function FormVisitante(props) {
             Informe uma data válida!
           </Form.Control.Feedback>
         </Form.Group>
+
+
+
+
+
+        <Form.Group as={Col} md="4">
+          <Form.Label>Categoria</Form.Label>
+          <CaixaSelecao endFonteDados={urlBase3}
+                        campoChave={"codigo"}
+                        campoExibicao={"nome"}
+                        funcaoSelecao={(itemSelecionado) => {
+                          setCategoriaSelecionada(itemSelecionado);
+                          setVisitante({ ...visitante, codCategoria: itemSelecionado.codigo });
+                        }}
+                        id="codCategoria"
+          />
+        </Form.Group>
       </Row>
+
+
+
+
+
       <Row className="mb-3">
         <Form.Group as={Col} md="12">
           <Form.Label>Observações  -  Se não houver deixar <strong>OK</strong></Form.Label>
