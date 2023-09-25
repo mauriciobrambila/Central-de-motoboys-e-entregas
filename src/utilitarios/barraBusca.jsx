@@ -14,7 +14,7 @@ export default function BarraBusca({ placeHolder, dados, campoChave, campoBusca,
   },[termoBusca, dados]);
 
   function filtrarResultado() {
-    const termoBuscaLowerCase = termoBusca?.toLowerCase() ?? ''; // Garanta que termoBusca não seja undefined
+    const termoBuscaLowerCase = termoBusca?.toLowerCase() ?? '';
     setDadosLista(
       dados.filter((item) =>
         termoBuscaLowerCase.length > 1 ? item[campoBusca].toLowerCase().includes(termoBuscaLowerCase) : false

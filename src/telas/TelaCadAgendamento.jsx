@@ -14,8 +14,7 @@ export default function TelaCadastroAgendamentos(props){
         visitante: "",
         data: "",
         horaEntrada: "",
-        horaSaida: "",
-        observacao: ""
+        horaSaida: ""
     });
     
 

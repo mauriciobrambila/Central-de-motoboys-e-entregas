@@ -34,7 +34,6 @@ export default function TabelaAgendamentos(props){
                 <th>Data</th>
                 <th>Hora da Entrada</th>
                 <th>Hora de Saída</th>
-                <th>Observações</th>
                 <th>Ações</th>
                 </tr>
             </thead>
@@ -47,7 +46,6 @@ export default function TabelaAgendamentos(props){
                             <td>{agendamento.data}</td>
                             <td>{agendamento.horaEntrada}</td>
                             <td>{agendamento.horaSaida}</td>
-                            <td>{agendamento.observacao}</td>
                             <td>
                                 <div className="d-flex">
                                     <Button variant="info" onClick={()=>{ props.editarAgendamento(agendamento) }}> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
