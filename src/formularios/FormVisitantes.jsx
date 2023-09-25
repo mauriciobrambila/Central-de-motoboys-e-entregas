@@ -176,12 +176,12 @@ export default function FormVisitante(props) {
           </Form.Control.Feedback>
         </Form.Group>
         <Form.Group as={Col} md="4">
-          <Form.Label>Data</Form.Label>
+          <Form.Label>Data de Cadastro</Form.Label>
           <Form.Control type="date"
             placeholder="00/00/0000"
             required
-            value={visitante.data}
-            id="data"
+            value={visitante.dataCadastro}
+            id="dataCadastro"
             onChange={manipularMudanca} />
           <Form.Control.Feedback type="invalid">
             Informe uma data válida!
@@ -195,11 +195,11 @@ export default function FormVisitante(props) {
         <Form.Group as={Col} md="4">
           <Form.Label>Categoria</Form.Label>
           <CaixaSelecao endFonteDados={urlBase3}
-                        campoChave={"codigo"}
-                        campoExibicao={"nome"}
+                        campoChave={"codigoCat"}
+                        campoExibicao={"descricao"}
                         funcaoSelecao={(itemSelecionado) => {
                           setCategoriaSelecionada(itemSelecionado);
-                          setVisitante({ ...visitante, codCategoria: itemSelecionado.codigo });
+                          setVisitante({ ...visitante, codCategoria: itemSelecionado.codigoCat });
                         }}
                         id="codCategoria"
           />

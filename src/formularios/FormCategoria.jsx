@@ -102,24 +102,24 @@ export default function FormCategoria(props) {
           <Form.Control
             placeholder="Será gerado após cadastrar"
               disabled
-              value={categoria.codigo}
-              id="codigo" />
+              value={categoria.codigoCat}
+              id="codigoCat" />
         </Form.Group>
       </Row>
 
 
       <Row className="mb-3">
         <Form.Group as={Col} md="6">
-          <Form.Label>Nome</Form.Label>
+          <Form.Label>Descrição</Form.Label>
           <Form.Control
             required
             type="text"
-            value={categoria.nome}
-            id="nome"
+            value={categoria.descricao}
+            id="descricao"
             onChange={manipularMudanca}
           />
           <Form.Control.Feedback type="invalid">
-            Insira um nome
+            Insira a descrição
           </Form.Control.Feedback>
         </Form.Group>
       </Row>
@@ -128,16 +128,16 @@ export default function FormCategoria(props) {
       
       <Row className="mb-3">
         <Form.Group as={Col} md="12">
-          <Form.Label>Observações  - Tipos que irá englobar</Form.Label>
+          <Form.Label>Abrangentes  - Tipos que irá englobar</Form.Label>
           <Form.Control as="textarea"
             rows={3}
             required
             minLength={2}
-            value={categoria.observacao}
-            id="observacao"
+            value={categoria.abrangentes}
+            id="abrangentes"
             onChange={manipularMudanca} />
             <Form.Control.Feedback type="invalid">
-              Preencha a observação com quais tipos a categoria irá englobar
+              Preencha quais as pessoas serão englobadas
             </Form.Control.Feedback>
         </Form.Group>
       </Row>

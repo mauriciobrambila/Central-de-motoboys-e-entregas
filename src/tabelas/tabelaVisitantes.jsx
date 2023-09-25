@@ -35,7 +35,7 @@ export default function TabelaVisitantes(props){
                 <th>CPF</th>
                 <th>RG</th>
                 <th>Telefone</th>
-                <th>Data</th>
+                <th>Data de cadastro</th>
                 <th>Categoria</th>
                 <th>Observações</th>
                 <th>Ações</th>
@@ -51,8 +51,8 @@ export default function TabelaVisitantes(props){
                             <td>{visitante.cpf}</td>
                             <td>{visitante.rg}</td>
                             <td>{visitante.telefone}</td>
-                            <td>{visitante.data}</td>
-                            <td>{visitante.codCategoria.nome}</td>
+                            <td>{visitante.dataCadastro}</td>
+                            <td>{visitante.codCategoria.descricao}</td>
                             <td>{visitante.observacao}</td>
                             <td>
                                 <div className="d-flex">

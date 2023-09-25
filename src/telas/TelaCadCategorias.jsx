@@ -10,9 +10,9 @@ export default function TelaCadastroCategorias(props){
     const [exibirTabela, setExibirTabela] = useState(true);
     const [modoEdicao, setModoEdicao] = useState(false);
     const [categoriaEmEdicao, setCategoriaEmEdicao] = useState({
-        codigo: "",
-        nome: "",
-        observacao: ""
+        codigoCat: "",
+        descricao: "",
+        abrangentes: ""
     });
     
 
@@ -48,7 +48,7 @@ export default function TelaCadastroCategorias(props){
               window.alert("Categoria excluída!");
       
               setCategorias((antigos) =>
-                antigos.filter((c) => c.codigo !== categoria.codigo)
+                antigos.filter((c) => c.codigoCat !== categoria.codigoCat)
               );
             })
             .catch((erro) => {

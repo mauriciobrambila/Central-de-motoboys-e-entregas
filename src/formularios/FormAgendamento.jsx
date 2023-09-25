@@ -206,21 +206,6 @@ export default function FormAgendamento(props) {
         </Form.Group>
       </Row>
       <br/>
-      <Row className="mb-3">
-        <Form.Group as={Col} md="12">
-          <Form.Label>Observações  -  Se não houver deixar <strong>OK</strong></Form.Label>
-          <Form.Control as="textarea"
-            rows={3}
-            required
-            minLength={2}
-            value={agendamento.observacao}
-            id="observacao"
-            onChange={manipularMudanca} />
-            <Form.Control.Feedback type="invalid">
-              Preencha a observação, caso não tenha deixar OK
-            </Form.Control.Feedback>
-        </Form.Group>
-      </Row>
       <Form.Group className="mb-3">
         <Form.Check
           required

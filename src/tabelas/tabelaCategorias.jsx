@@ -11,7 +11,7 @@ export default function TabelaCategorias(props){
         .then((resposta)=> {return resposta.json()})
         .then((listaCategorias)=>{
             if (Array.isArray(listaCategorias)){
-            const resultado = listaCategorias.filter((categoria) => categoria.nome.toLowerCase().includes(termoBusca.toLowerCase()));
+            const resultado = listaCategorias.filter((categoria) => categoria.descricao.toLowerCase().includes(termoBusca.toLowerCase()));
             props.setCategorias(resultado);
             }
         });
@@ -30,18 +30,18 @@ export default function TabelaCategorias(props){
             <thead>
                 <tr>
                 <th>Código</th>
-                <th>Nome</th>
-                <th>Observações</th>
+                <th>Descrição</th>
+                <th>Abrangentes</th>
                 <th>Ações</th>
                 </tr>
             </thead>
             <tbody>
             {
                 props.listaCategorias?.map((categoria) => {
-                    return <tr key={categoria.codigo}>
-                            <td>{categoria.codigo}</td>
-                            <td>{categoria.nome}</td>
-                            <td>{categoria.observacao}</td>
+                    return <tr key={categoria.codigoCat}>
+                            <td>{categoria.codigoCat}</td>
+                            <td>{categoria.descricao}</td>
+                            <td>{categoria.abrangentes}</td>
                             <td>
                                 <div className="d-flex">
                                     <Button variant="info" onClick={()=>{ props.editarCategoria(categoria) }}> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil" viewBox="0 0 16 16">
