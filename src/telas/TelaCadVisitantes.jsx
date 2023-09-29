@@ -17,7 +17,7 @@ export default function TelaCadastroVisitantes(props){
         codigo: "",
         telefone: "",
         dataCadastro: "",
-        categoria: "",
+        codCategoria: "",
         observacao: ""
     });
     
