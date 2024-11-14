@@ -21,16 +21,16 @@ const boxcadall_style = {
   height: '610px'
 }
 
-export default function FormVisitante(props) {
+export default function FormMotoboy(props) {
   const [validated, setValidated] = useState(false);
-  const [visitante, setVisitante] = useState(props.visitante);
-  const [categoriaSelecionada, setCategoriaSelecionada] = useState({});
+  const [motoboy, setMotoboy] = useState(props.motoboy);
+  const [pedidoSelecionada, setPedidoSelecionada] = useState({});
 
   function manipularMudanca(e) {
     const elemForm = e.currentTarget;
     const id = elemForm.id;
     const valor = elemForm.value;
-    setVisitante({ ...visitante, [id]: valor });
+    setMotoboy({ ...motoboy, [id]: valor });
 
   }
 
@@ -47,7 +47,7 @@ export default function FormVisitante(props) {
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(visitante),
+            body: JSON.stringify(motoboy),
           })
             .then((resposta) => {
               return resposta.json();
@@ -58,13 +58,13 @@ export default function FormVisitante(props) {
                 .then((resposta) => {
                   return resposta.json();
                 })
-                .then((listaVisitantes) => {
-                  if (Array.isArray(listaVisitantes)) {
-                    props.setVisitantes(listaVisitantes);
+                .then((listaMotoboys) => {
+                  if (Array.isArray(listaMotoboys)) {
+                    props.setMotoboys(listaMotoboys);
                   }
                 })
                 .catch((erro) => {
-                    window.alert("Erro ao obter a lista de visitantes: " + erro.message);
+                    window.alert("Erro ao obter a lista de motoboys: " + erro.message);
                 });
               window.alert(dados.mensagem);
             })
@@ -76,13 +76,13 @@ export default function FormVisitante(props) {
           fetch(urlBase, {
             method:"PUT",
             headers:{"Content-Type":"application/json"},
-            body: JSON.stringify(visitante)
+            body: JSON.stringify(motoboy)
           }).then((resposta) => {
             return resposta.json();
           });
           window.alert("Atualizado com sucesso!");
           props.setModoEdicao(false);
-          props.setVisitante(true);
+          props.setMotoboy(true);
         }
         
       props.exibirTabela(true);
@@ -93,17 +93,17 @@ export default function FormVisitante(props) {
 
 
   return (
-    <Form className='mt-5' id='cadastroVisitas' noValidate validated={validated} onSubmit={handleSubmit} style={boxcadall_style}>
+    <Form className='mt-5' id='cadastroMotoboys' noValidate validated={validated} onSubmit={handleSubmit} style={boxcadall_style}>
       <hr />
-      <div className='d-flex justify-content-center'><Form.Label className="fs-3 justify-content-center d-flex" style={boxcad_style}>Cadastro de Visitantes</Form.Label></div>
+      <div className='d-flex justify-content-center'><Form.Label className="fs-3 justify-content-center d-flex" style={boxcad_style}>Cadastro de Motoboys</Form.Label></div>
       <hr />
       <Row className="mb-3">
         <Form.Group as={Col} md="6">
-          <Form.Label>Nome</Form.Label>
+          <Form.Label>Nome completo</Form.Label>
           <Form.Control
             required
             type="text"
-            value={visitante.nome}
+            value={motoboy.nome}
             id="nome"
             onChange={manipularMudanca}
           />
@@ -111,24 +111,33 @@ export default function FormVisitante(props) {
             Insira um nome
           </Form.Control.Feedback>
         </Form.Group>
+
         <Form.Group as={Col} md="6">
-          <Form.Label>Sobrenome</Form.Label>
-          <Form.Control
+        <Form.Label>Endereço</Form.Label>
+        <Form.Control
             required
             type="text"
-            value={visitante.sobrenome}
-            id="sobrenome"
+            value={motoboy.endereco}
+            id="endereco"
             onChange={manipularMudanca}
           />
+         
           <Form.Control.Feedback type="invalid">
-            Insira um sobrenome
+            Informe o telefone!
           </Form.Control.Feedback>
-        </Form.Group>
+          </Form.Group>
+      
+
+      
       </Row>
+
+      
+
+      
       <Row className="mb-3">
         <Form.Group as={Col} md="4">
           <Form.Label>CPF</Form.Label>
-          <ReactInputMask mask="999.999.999-99" maskChar="" value={visitante.cpf} onChange={manipularMudanca}>
+          <ReactInputMask mask="999.999.999-99" maskChar="" value={motoboy.cpf} onChange={manipularMudanca}>
             {() => <Form.Control type="text"
               placeholder="000.000.000-00"
               required
@@ -138,33 +147,10 @@ export default function FormVisitante(props) {
             Informe um CPF válido!
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group as={Col} md="4">
-          <Form.Label>RG</Form.Label>
-          <Form.Control type="text"
-            value={visitante.rg}
-            required
-            id="rg"
-            onChange={manipularMudanca} />
-          <Form.Control.Feedback type="invalid">
-            Informe o RG!
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Form.Group as={Col} md="4">
-          <Form.Label>Código</Form.Label>
-          <Form.Control
-            placeholder="Será gerado após cadastrar"
-              disabled
-              value={visitante.codigo}
-              id="codigo" />
-          <Form.Control.Feedback type="invalid">
-            Informe o código do visitante!
-          </Form.Control.Feedback>
-        </Form.Group>
-      </Row>
-      <Row className="mb-3">
+      
         <Form.Group as={Col} md="4">
           <Form.Label>Telefone</Form.Label>
-          <ReactInputMask mask='(99) 99999-9999' maskChar="" value={visitante.telefone} onChange={manipularMudanca}>
+          <ReactInputMask mask='(99) 99999-9999' maskChar="" value={motoboy.telefone} onChange={manipularMudanca}>
             {() => <Form.Control type="text"
               placeholder="(00) 00000-0000"
               required
@@ -175,12 +161,29 @@ export default function FormVisitante(props) {
             Informe o telefone!
           </Form.Control.Feedback>
         </Form.Group>
+
+
+      
+        <Form.Group as={Col} md="4">
+          <Form.Label>ID</Form.Label>
+          <Form.Control
+            placeholder="ID gerado apos aprovação"
+              disabled
+              value={motoboy.codigo}
+              id="codigo" />
+          <Form.Control.Feedback type="invalid">
+            Informe o código do motoboy!
+          </Form.Control.Feedback>
+        </Form.Group>
+      </Row>
+      <Row className="mb-3">
+       
         <Form.Group as={Col} md="4">
           <Form.Label>Data de Cadastro</Form.Label>
           <Form.Control type="date"
             placeholder="00/00/0000"
             required
-            value={visitante.dataCadastro}
+            value={motoboy.dataCadastro}
             id="dataCadastro"
             onChange={manipularMudanca} />
           <Form.Control.Feedback type="invalid">
@@ -193,15 +196,16 @@ export default function FormVisitante(props) {
 
 
         <Form.Group as={Col} md="4">
-          <Form.Label>Categoria</Form.Label>
+          <Form.Label>Cargo</Form.Label>
           <CaixaSelecao endFonteDados={urlBase3}
-                        campoChave={"codigoCat"}
+                        campoChave={"codigoPed"}
                         campoExibicao={"descricao"}
                         funcaoSelecao={(itemSelecionado) => {
-                          setCategoriaSelecionada(itemSelecionado);
-                          setVisitante({ ...visitante, codCategoria: itemSelecionado.codigoCat });
+                          setPedidoSelecionada(itemSelecionado);
+                          setMotoboy({ ...motoboy, codPedido: itemSelecionado.codigoPed });
                         }}
-                        id="codCategoria"
+                        id="codPedido"
+                        value={motoboy.codPedido}
           />
         </Form.Group>
       </Row>
@@ -212,12 +216,12 @@ export default function FormVisitante(props) {
 
       <Row className="mb-3">
         <Form.Group as={Col} md="12">
-          <Form.Label>Observações  -  Se não houver deixar <strong>OK</strong></Form.Label>
+          <Form.Label>Observações- se não, deixe um <strong>OK</strong></Form.Label>
           <Form.Control as="textarea"
             rows={3}
             required
             minLength={2}
-            value={visitante.observacao}
+            value={motoboy.observacao}
             id="observacao"
             onChange={manipularMudanca} />
             <Form.Control.Feedback type="invalid">
@@ -225,14 +229,7 @@ export default function FormVisitante(props) {
             </Form.Control.Feedback>
         </Form.Group>
       </Row>
-      <Form.Group className="mb-3">
-        <Form.Check
-          required
-          label="Aceito os termos e condições"
-          feedback="É necessário aceitar os termos para prosseguir"
-          feedbackType="invalid"
-        />
-      </Form.Group>
+      
       <Row className="m-3">
         <Col md="10">
           <Button variant="secondary" type="button" onClick={() => { props.exibirTabela(true)}}>Voltar</Button>

@@ -19,15 +19,15 @@ const boxcadall_style = {
   height: '610px'
 }
 
-export default function FormCategoria(props) {
+export default function FormPedido(props) {
   const [validated, setValidated] = useState(false);
-  const [categoria, setCategoria] = useState(props.categoria);
+  const [pedido, setPedido] = useState(props.pedido);
 
   function manipularMudanca(e) {
     const elemForm = e.currentTarget;
     const id = elemForm.id;
     const valor = elemForm.value;
-    setCategoria({ ...categoria, [id]: valor });
+    setPedido({ ...pedido, [id]: valor });
 
   }
 
@@ -44,7 +44,7 @@ export default function FormCategoria(props) {
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(categoria),
+            body: JSON.stringify(pedido),
           })
             .then((resposta) => {
               return resposta.json();
@@ -55,13 +55,13 @@ export default function FormCategoria(props) {
                 .then((resposta) => {
                   return resposta.json();
                 })
-                .then((listaCategorias) => {
-                  if (Array.isArray(listaCategorias)) {
-                    props.setCategorias(listaCategorias);
+                .then((listaPedidos) => {
+                  if (Array.isArray(listaPedidos)) {
+                    props.setPedidos(listaPedidos);
                   }
                 })
                 .catch((erro) => {
-                    window.alert("Erro ao obter a lista de categorias: " + erro.message);
+                    window.alert("Erro ao obter a lista de pedidos: " + erro.message);
                 });
               window.alert(dados.mensagem);
             })
@@ -73,13 +73,13 @@ export default function FormCategoria(props) {
           fetch(urlBase3, {
             method:"PUT",
             headers:{"Content-Type":"application/json"},
-            body: JSON.stringify(categoria)
+            body: JSON.stringify(pedido)
           }).then((resposta) => {
             return resposta.json();
           });
           window.alert("Atualizado com sucesso!");
           props.setModoEdicao(false);
-          props.setCategoria(true);
+          props.setPedido(true);
         }
         
       props.exibirTabela(true);
@@ -90,20 +90,20 @@ export default function FormCategoria(props) {
 
 
   return (
-    <Form className='mt-5' id='cadastroCategorias' noValidate validated={validated} onSubmit={handleSubmit} style={boxcadall_style}>
+    <Form className='mt-5' id='cadastroPedidos' noValidate validated={validated} onSubmit={handleSubmit} style={boxcadall_style}>
       <hr />
-      <div className='d-flex justify-content-center'><Form.Label className="fs-3 justify-content-center d-flex" style={boxcad_style}>Cadastro de Categorias</Form.Label></div>
+      <div className='d-flex justify-content-center'><Form.Label className="fs-3 justify-content-center d-flex" style={boxcad_style}>Cadastro de Pedidos</Form.Label></div>
       <hr />
 
 
       <Row className="mb-3">
         <Form.Group as={Col} md="4">
-          <Form.Label>Código</Form.Label>
+          <Form.Label>ID</Form.Label>
           <Form.Control
-            placeholder="Será gerado após cadastrar"
+            placeholder="ID gerador descrever o pedido"
               disabled
-              value={categoria.codigoCat}
-              id="codigoCat" />
+              value={pedido.codigoPed}
+              id="codigoPed" />
         </Form.Group>
       </Row>
 
@@ -112,9 +112,10 @@ export default function FormCategoria(props) {
         <Form.Group as={Col} md="6">
           <Form.Label>Descrição</Form.Label>
           <Form.Control
+           placeholder="EX: Lanche sem batata"
             required
             type="text"
-            value={categoria.descricao}
+            value={pedido.descricao}
             id="descricao"
             onChange={manipularMudanca}
           />
@@ -126,21 +127,7 @@ export default function FormCategoria(props) {
 
 
       
-      <Row className="mb-3">
-        <Form.Group as={Col} md="12">
-          <Form.Label>Abrangentes  - Tipos que irá englobar</Form.Label>
-          <Form.Control as="textarea"
-            rows={3}
-            required
-            minLength={2}
-            value={categoria.abrangentes}
-            id="abrangentes"
-            onChange={manipularMudanca} />
-            <Form.Control.Feedback type="invalid">
-              Preencha quais as pessoas serão englobadas
-            </Form.Control.Feedback>
-        </Form.Group>
-      </Row>
+      
 
       
       <Row className="m-3">
@@ -152,5 +139,5 @@ export default function FormCategoria(props) {
         </Col>
       </Row>
     </Form>
-  );
+  );      
 }

@@ -1,58 +1,60 @@
-import FormCategorias from "../formularios/FormCategoria";
+import FormEntrega from "../formularios/FormEntrega";
 import { Container } from "react-bootstrap";
-import TabelaCategorias from "../tabelas/tabelaCategorias";
+import TabelaEntregas from "../tabelas/tabelaEntrega";
 import { useState, useEffect } from "react";
 import Pagina from "../templates/Pagina";
-import { urlBase3 } from "../utilitarios/definiçoes";
+import { urlBase2 } from "../utilitarios/definiçoes";
 
-export default function TelaCadastroCategorias(props){
-    const [categorias, setCategorias] = useState([]);
+export default function TelaCadastroEntregas(props){
+    const [entregas, setEntregas] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
     const [modoEdicao, setModoEdicao] = useState(false);
-    const [categoriaEmEdicao, setCategoriaEmEdicao] = useState({
-        codigoCat: "",
-        descricao: "",
-        abrangentes: ""
+    const [entregaEmEdicao, setEntregaEmEdicao] = useState({
+        registro: "",
+        listaMotoboy: [],
+        data: "",
+        horaEntrada: "",
+        horaSaida: ""
     });
     
 
     useEffect(()=>{
-        fetch(urlBase3, {method:"GET"})
+        fetch(urlBase2, {method:"GET"})
         .then((resposta)=>{return resposta.json()})
         .then((dados)=>{
             if (Array.isArray(dados)){
-                setCategorias(dados);
+                setEntregas(dados);
             }
             else{
-                window.alert("Erro ao fazer requisição do dados! Tente novamente")
+                window.alert("Erro ao fazer requisição dos dados! Tente novamente")
             }
         });
     },[]);
 
 
-    function prepararCategoriaEdicao(categoria){
+    function prepararEntregaEdicao(entrega){
         setModoEdicao(true);
-        setCategoriaEmEdicao(categoria);
+        setEntregaEmEdicao(entrega);
         setExibirTabela(false);
     }
-    
-    function excluirCategoria(categoria) {
+
+    function excluirEntrega(entrega) {
         if (window.confirm("Confirmar exclusão?")) {
-          fetch(urlBase3, {
+          fetch(urlBase2, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(categoria)
+            body: JSON.stringify(entrega),
           })
             .then((resposta) => resposta.json())
             .then((resposta) => {
-              window.alert("Categoria excluída!");
+              window.alert("Entrega excluída!");
       
-              setCategorias((antigos) =>
-                antigos.filter((c) => c.codigoCat !== categoria.codigoCat)
+              setEntregas((antigos) =>
+                antigos.filter((a) => a.registro !== entrega.registro)
               );
             })
             .catch((erro) => {
-              window.alert("Erro ao excluir categoria: " + erro.message);
+              window.alert("Erro ao excluir aentrega: " + erro.message);
             });
         }
       }
@@ -64,22 +66,22 @@ export default function TelaCadastroCategorias(props){
                 exibirTabela? 
                 <Pagina>
                     <Container id="brasao">
-                    <TabelaCategorias listaCategorias={categorias}
-                                        setCategorias={setCategorias}
+                    <TabelaEntregas listaEntregas={entregas}
+                                        setEntregas={setEntregas}
                                         exibirTabela={setExibirTabela}
-                                        editarCategoria={prepararCategoriaEdicao}
-                                        excluir={excluirCategoria}/> 
+                                        editarEntrega={prepararEntregaEdicao}
+                                        excluir={excluirEntrega}/> 
                     </Container>
                 </Pagina>
                     :
                 <Pagina>
                     <Container id="brasao">
-                        <FormCategorias listaCategorias={categorias} 
-                                        setCategorias={setCategorias} 
+                        <FormEntrega listaEntregas={entregas} 
+                                        setEntregas={setEntregas} 
                                         exibirTabela={setExibirTabela} 
                                         modoEdicao={modoEdicao}
                                         setModoEdicao={setModoEdicao} 
-                                        categoria={categoriaEmEdicao}
+                                        entrega={entregaEmEdicao}
                                         />
                     </Container>
                  </Pagina>

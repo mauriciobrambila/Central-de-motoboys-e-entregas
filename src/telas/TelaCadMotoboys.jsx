@@ -1,23 +1,23 @@
-import FormVisitante from "../formularios/FormVisitantes";
+import FormMotoboy from "../formularios/FormMotoboy";
 import { Container } from "react-bootstrap";
-import TabelaVisitantes from "../tabelas/tabelaVisitantes";
+import TabelaMotoboys from "../tabelas/tabelaMotoboys";
 import { useState, useEffect } from "react";
 import Pagina from "../templates/Pagina";
 import { urlBase } from "../utilitarios/definiçoes";
 
-export default function TelaCadastroVisitantes(props){
-    const [visitantes, setVisitantes] = useState([]);
+export default function TelaCadastroMotoboys(props){
+    const [motoboys, setMotoboys] = useState([]);
     const [exibirTabela, setExibirTabela] = useState(true);
     const [modoEdicao, setModoEdicao] = useState(false);
-    const [visitanteEmEdicao, setVisitanteEmEdicao] = useState({
+    const [motoboyEmEdicao, setMotoboyEmEdicao] = useState({
         nome: "",
-        sobrenome: "",
+       endereco: "",
         cpf: "",
-        rg: "",
+
         codigo: "",
         telefone: "",
         dataCadastro: "",
-        codCategoria: "",
+        codPedido: "",
         observacao: ""
     });
     
@@ -27,7 +27,7 @@ export default function TelaCadastroVisitantes(props){
         .then((resposta)=>{return resposta.json()})
         .then((dados)=>{
             if (Array.isArray(dados)){
-                setVisitantes(dados);
+                setMotoboys(dados);
             }
             else{
                 window.alert("Erro ao fazer requisição do dados! Tente novamente")
@@ -36,29 +36,29 @@ export default function TelaCadastroVisitantes(props){
     },[]);
 
 
-    function prepararVisitanteEdicao(visitante){
+    function prepararMotoboyEdicao(motoboy){
         setModoEdicao(true);
-        setVisitanteEmEdicao(visitante);
+        setMotoboyEmEdicao(motoboy);
         setExibirTabela(false);
     }
     
-    function excluirVisitante(visitante) {
+    function excluirMotoboy(motoboy) {
         if (window.confirm("Confirmar exclusão?")) {
           fetch(urlBase, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(visitante)
+            body: JSON.stringify(motoboy)
           })
             .then((resposta) => resposta.json())
             .then((resposta) => {
-              window.alert("Visitante excluído!");
+              window.alert("Motoboy excluído!");
       
-              setVisitantes((antigos) =>
-                antigos.filter((v) => v.codigo !== visitante.codigo)
+              setMotoboys((antigos) =>
+                antigos.filter((v) => v.codigo !== motoboy.codigo)
               );
             })
             .catch((erro) => {
-              window.alert("Erro ao excluir visitante: " + erro.message);
+              window.alert("Erro ao excluir motoboy: " + erro.message);
             });
         }
       }
@@ -70,26 +70,26 @@ export default function TelaCadastroVisitantes(props){
                 exibirTabela? 
                 <Pagina>
                     <Container id="brasao">
-                    <TabelaVisitantes listaVisitantes={visitantes}
-                                        setVisitantes={setVisitantes}
+                    <TabelaMotoboys listaMotoboys={motoboys}
+                                        setMotoboys={setMotoboys}
                                         exibirTabela={setExibirTabela}
-                                        editarVisitante={prepararVisitanteEdicao}
-                                        excluir={excluirVisitante}/> 
+                                        editarMotoboy={prepararMotoboyEdicao}
+                                        excluir={excluirMotoboy}/> 
                     </Container>
                 </Pagina>
                     :
                 <Pagina>
                     <Container id="brasao">
-                        <FormVisitante listaVisitantes={visitantes} 
-                                        setVisitantes={setVisitantes} 
+                        <FormMotoboy listaMotoboys={motoboys} 
+                                        setMotoboys={setMotoboys} 
                                         exibirTabela={setExibirTabela} 
                                         modoEdicao={modoEdicao}
                                         setModoEdicao={setModoEdicao} 
-                                        visitante={visitanteEmEdicao}
+                                        motoboy={motoboyEmEdicao}
                                         />
                     </Container>
                  </Pagina>
             }
         </>      
     );
-}
+}   
